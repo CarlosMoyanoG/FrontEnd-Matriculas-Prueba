@@ -20,6 +20,7 @@ export class TestMatriculas {
     fabricacion: '',
     valor_comercial: '',
     codigo_revision: '',
+    impuesto: ''
   };
 
   mensaje = '';
@@ -66,6 +67,29 @@ export class TestMatriculas {
     );
   }
 
+  private calcularImpuesto(valorComercial: string, fabricacion: string, marca: string): string {
+    const valor = Number.parseFloat((valorComercial ?? '').toString().replace(',', '.'));
+    const base = Number.isFinite(valor) ? valor * 0.025 : 0;
+
+    const anio = Number.parseInt((fabricacion ?? '').toString(), 10);
+    const recargo = Number.isFinite(anio) && anio < 2010 ? base * 0.10 : 0;
+
+    const marcaTrim = (marca ?? '').trim();
+    const iniciaConVocal = /^[aeiou]/i.test(marcaTrim);
+    const beneficio = iniciaConVocal ? 30 : 0;
+
+    const total = Math.max(0, base + recargo - beneficio);
+    return total.toFixed(2);
+  }
+
+  actualizarImpuesto(): void {
+    this.form.impuesto = this.calcularImpuesto(
+      this.form.valor_comercial,
+      this.form.fabricacion,
+      this.form.marca
+    );
+  }
+
   guardar(): void {
     this.mensaje = '';
     this.error = '';
@@ -76,6 +100,7 @@ export class TestMatriculas {
     }
 
     this.actualizarCodigoRevision();
+    this.actualizarImpuesto();
 
     this.matriculasService.create(this.form).subscribe({
       next: (created) => {
@@ -88,6 +113,7 @@ export class TestMatriculas {
           fabricacion: '',
           valor_comercial: '',
           codigo_revision: '',
+          impuesto: ''
         };
       },
       error: (err) => {

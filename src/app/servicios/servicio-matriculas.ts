@@ -9,6 +9,7 @@ export interface Matricula {
   fabricacion: string;
   valor_comercial: string;
   codigo_revision: string;
+  impuesto: string;
 }
 
 export type MatriculaCreate = Matricula;
@@ -16,6 +17,7 @@ export type MatriculaCreate = Matricula;
 @Injectable({
   providedIn: 'root',
 })
+
 export class ServicioMatriculas {
   private readonly baseUrl = 'http://localhost:8000/api/matriculas';
 
@@ -23,10 +25,6 @@ export class ServicioMatriculas {
 
   getAll(): Observable<Matricula[]> {
     return this.http.get<Matricula[]>(this.baseUrl);
-  }
-
-  getByCedula(cedula: string): Observable<Matricula> {
-    return this.http.get<Matricula>(`${this.baseUrl}/${encodeURIComponent(cedula)}`);
   }
 
   create(matricula: MatriculaCreate): Observable<Matricula> {

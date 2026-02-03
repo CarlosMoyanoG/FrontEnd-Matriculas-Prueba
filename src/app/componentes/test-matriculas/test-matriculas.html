@@ -37,6 +37,7 @@
         <input
           name="marca"
           [(ngModel)]="form.marca"
+          (ngModelChange)="actualizarImpuesto()"
           placeholder="Toyota"
           required
         />
@@ -47,7 +48,7 @@
         <input
           name="fabricacion"
           [(ngModel)]="form.fabricacion"
-          (ngModelChange)="actualizarCodigoRevision()"
+          (ngModelChange)="actualizarCodigoRevision(); actualizarImpuesto()"
           placeholder="2020"
           required
         />
@@ -68,8 +69,19 @@
         <input
           name="valor_comercial"
           [(ngModel)]="form.valor_comercial"
+          (ngModelChange)="actualizarImpuesto()"
           placeholder="10000"
           required
+        />
+      </div>
+
+      <div class="row">
+        <label>Impuesto</label>
+        <input
+          name="impuesto"
+          [(ngModel)]="form.impuesto"
+          placeholder="0.00"
+          readonly
         />
       </div>
 
@@ -98,6 +110,7 @@
           <th>Fabricacion</th>
           <th>Valor Comercial</th>
           <th>Codigo Revision</th>
+          <th>Impuesto</th>
         </tr>
       </thead>
       <tbody>
@@ -108,6 +121,7 @@
           <td>{{ m.fabricacion }}</td>
           <td>{{ m.valor_comercial }}</td>
           <td>{{ m.codigo_revision }}</td>
+          <td>{{ m.impuesto }}</td>
         </tr>
       </tbody>
     </table>
