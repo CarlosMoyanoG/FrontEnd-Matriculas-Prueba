@@ -1,0 +1,117 @@
+<div class="container">
+  <h2>Crear y Listar Matriculas (Angular + FastAPI)</h2>
+
+  <div class="alerts">
+    <p class="msg" *ngIf="mensaje">{{ mensaje }}</p>
+    <p class="err" *ngIf="error">{{ error }}</p>
+  </div>
+
+  <section class="card">
+    <h3>Crear Matricula</h3>
+
+    <form (ngSubmit)="guardar()" #f="ngForm">
+      <div class="row">
+        <label>Placa</label>
+        <input
+          name="placa"
+          [(ngModel)]="form.placa"
+          (ngModelChange)="actualizarCodigoRevision()"
+          placeholder="ABB-1234"
+          required
+        />
+      </div>
+
+      <div class="row">
+        <label>Propietario</label>
+        <input
+          name="propietario"
+          [(ngModel)]="form.propietario"
+          (ngModelChange)="actualizarCodigoRevision()"
+          placeholder="Juan Perez"
+          required
+        />
+      </div>
+
+      <div class="row">
+        <label>Marca</label>
+        <input
+          name="marca"
+          [(ngModel)]="form.marca"
+          placeholder="Toyota"
+          required
+        />
+      </div>
+
+      <div class="row">
+        <label>Año de Fabricacion</label>
+        <input
+          name="fabricacion"
+          [(ngModel)]="form.fabricacion"
+          (ngModelChange)="actualizarCodigoRevision()"
+          placeholder="2020"
+          required
+        />
+      </div>
+
+      <div class="row">
+        <label>Código de Revision</label>
+        <input
+          name="codigo_revision"
+          [(ngModel)]="form.codigo_revision"
+          placeholder="12345"
+          readonly
+        />
+      </div>
+
+      <div class="row">
+        <label>Valor Comercial</label>
+        <input
+          name="valor_comercial"
+          [(ngModel)]="form.valor_comercial"
+          placeholder="10000"
+          required
+        />
+      </div>
+
+      <div class="actions">
+        <button type="submit">
+            Guardar
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="header">
+      <h3>Listado</h3>
+      <button class="secondary" (click)="cargarMatriculas()">Refrescar</button>
+    </div>
+
+    <p *ngIf="loading">Cargando...</p>
+
+    <table *ngIf="!loading && matricula.length > 0">
+      <thead>
+        <tr>
+          <th>Placa</th>
+          <th>Propietario</th>
+          <th>Marca</th>
+          <th>Fabricacion</th>
+          <th>Valor Comercial</th>
+          <th>Codigo Revision</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of matricula">
+          <td>{{ m.placa }}</td>
+          <td>{{ m.propietario }}</td>
+          <td>{{ m.marca }}</td>
+          <td>{{ m.fabricacion }}</td>
+          <td>{{ m.valor_comercial }}</td>
+          <td>{{ m.codigo_revision }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="!loading && matricula.length === 0">No hay matriculas registradas.</p>
+  </section>
+</div>
